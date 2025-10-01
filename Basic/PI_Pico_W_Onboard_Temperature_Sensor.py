@@ -1,3 +1,7 @@
+# Pi Pico W Onboard Temperature Sensor Script
+# Tested on: October 2, 2025
+# Description: Reads temperature from Raspberry Pi Pico W's onboard temperature sensor
+
 from machine import ADC
 import time
 
