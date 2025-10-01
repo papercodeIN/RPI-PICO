@@ -1,8 +1,12 @@
+# Pi Pico W WiFi Connection Script
+# Tested on: October 2, 2025
+# Description: Basic WiFi connection for Raspberry Pi Pico W
+
 import network
 from time import sleep
 
-ssid = "SSID"
-password = "PASSWORD"
+ssid = "Capgemini_4G"
+password = "MN704116"
 
 def connect():
     #Connect to WLAN
