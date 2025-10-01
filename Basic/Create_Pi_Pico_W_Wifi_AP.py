@@ -1,3 +1,7 @@
+# Pi Pico W WiFi Access Point Creation Script
+# Tested on: October 2, 2025
+# Description: Creates a WiFi Access Point on Raspberry Pi Pico W
+
 import socket
 import network
 
