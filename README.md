@@ -1,4 +1,4 @@
-<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=papercodeIN.RPI-PICO" height="20" />
+<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=papercodeIN.RPI_PICO" height="20" />
 
 # Raspberry Pi Pico
 ---
