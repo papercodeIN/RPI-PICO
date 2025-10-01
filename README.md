@@ -1,6 +1,6 @@
 <img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=papercodeIN.RPI-PICO" height="20" />
 
-# Raspberry Pi Pico W
+# Raspberry Pi Pico
 ---
 <p align="center">
   <span style="font-size: 1.1em; color: #FFD700; font-weight: bold;">✨ Enjoying this project? Support our work! ✨</span>
