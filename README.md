@@ -29,8 +29,8 @@
 $\color{Green}\Huge{\textbf{Basic}}$
 
 1. 🆓️How to Download and Install Thonny Micropython IDE in Windows System [[Watch]](https://youtu.be/27Tlwy83pqs)
-2. ⌛How to Connect Raspberry Pi Pico W to Wifi using Micropython & Thonny IDE [Watch]
-3. ⌛How to install micropython modbus library in Raspberry Pi Pico W using Thonny [Watch] 
+2. ⌛How to Connect Raspberry Pi Pico W to Wifi using Micropython & Thonny IDE
+3. ⌛How to install micropython modbus library in Raspberry Pi Pico W using Thonny 
 4. 🆓️How to Create Wifi Access Point in Raspberry Pi Pico W [[Watch]](https://youtu.be/TQM5PEL98TM)
 5. 🆓️How to Read Internal Temperature of Raspberry Pi Pico W using On Board Temperature Sensor [[Watch]](https://youtu.be/7eas25NaM-8) 
 
@@ -50,9 +50,9 @@ $\color{Green}\Huge{\textbf{Modbus TCP Client Implementation in Raspberry Pi Pic
 
 $\color{Green}\Huge{\textbf{Modbus TCP Server Implementation in Raspberry Pi Pico W}}$
 
-1. ⌛How to Create Simple Modbus TCP/IP Server in Raspberry Pi Pico W using MicroPython [Watch] 
+1. ⌛How to Create Simple Modbus TCP/IP Server in Raspberry Pi Pico W using MicroPython 
     1. With (Input Status, Coil Status, Input Register, Holding Register)
-2. ⌛Raspberry Pi Pico W Communication with SHT20 Modbus Serial Humidity & Temperature Transmitter [Watch] 
+2. ⌛Raspberry Pi Pico W Communication with SHT20 Modbus Serial Humidity & Temperature Transmitter 
 
 ---
 
@@ -66,8 +66,8 @@ $\color{Green}\Huge{\textbf{MQTT Implementation in Raspberry Pi Pico W}}$
 
 $\color{Green}\Huge{\textbf{MQTT + Modbus TCP/IP Client}}$
 
-1. ⌛Read Holding Register of Modbus TCP/IP and Publish it to MQTT Broker using Raspberry Pi Pico W [Watch] 
-2. ⌛Read Holding Register of Multiple Modbus TCP Device from Single IP and Publish it to MQTT Broker using Raspberry Pi Pico W [Watch] 
+1. ⌛Read Holding Register of Modbus TCP/IP and Publish it to MQTT Broker using Raspberry Pi Pico W 
+2. ⌛Read Holding Register of Multiple Modbus TCP Device from Single IP and Publish it to MQTT Broker using Raspberry Pi Pico W 
 
 ---
 
@@ -75,10 +75,10 @@ $\color{Green}\Huge{\textbf{Modbus Serial(RS485) Master Implementation in Raspbe
 
 1. 🆓️How to Read Holding Register Value of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/vkr0jXu8t8A) 
 2. 🆓️How to Read Input Register Value of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/UVCsmzV5K-Y) 
-3. ⌛How to Read Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [Watch] 
-4. ⌛How to Read Input Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [Watch] 
-5. ⌛How to Write Holding Register Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython [Watch] 
-6. ⌛How to Change Coil Status Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython [Watch] 
+3. ⌛How to Read Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython 
+4. ⌛How to Read Input Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython 
+5. ⌛How to Write Holding Register Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython 
+6. ⌛How to Change Coil Status Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython 
 
 ---
  
