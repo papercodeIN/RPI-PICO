@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RPI-PICO — README</title>
+  <style>
+    :root{--bg:#fff;--fg:#111;--muted:#555;--accent:#0066cc;--card:#f6f8fa}
+    [data-theme='dark']{--bg:#0b1220;--fg:#e6eef8;--muted:#9fb0d2;--accent:#4fb3ff;--card:#071028}
+    body{background:var(--bg);color:var(--fg);font-family:Inter,Segoe UI,Roboto,system-ui,Arial;margin:0;line-height:1.5}
+    .container{max-width:1000px;margin:24px auto;padding:20px}
+    header{display:flex;gap:12px;align-items:center}
+    header img{height:28px}
+    h1{margin:.2rem 0}
+    .toolbar{display:flex;gap:8px;margin-left:auto}
+    .btn{background:var(--card);border:1px solid rgba(0,0,0,.06);padding:8px 10px;border-radius:6px;color:var(--fg);cursor:pointer}
+    .search{flex:1;display:flex;gap:8px;align-items:center;background:var(--card);padding:6px;border-radius:6px}
+    #toc{border-left:1px solid rgba(0,0,0,.06);padding-left:16px;margin-left:20px}
+    main{display:flex;gap:20px}
+    article{flex:1}
+    pre{background:#0d1117;color:#c9d1d9;padding:12px;border-radius:8px;overflow:auto}
+    code{font-family:monospace}
+    .meta{font-size:.9rem;color:var(--muted)}
+    .section-collapsible{border:1px solid rgba(0,0,0,.06);padding:10px;border-radius:8px;margin:10px 0}
+    .hidden{display:none}
+    .copy-btn{float:right;margin-top:-30px}
+    @media(max-width:900px){main{flex-direction:column}#toc{border-left:none;padding-left:0;margin-left:0}}
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <header>
+      <img src="https://raw.githubusercontent.com/papercodeIN/RPI-PICO/main/README.md" alt="logo" onerror="this.style.display='none'">
+      <div>
+        <h1>RPI-PICO — README</h1>
+        <div class="meta">Interactive view of the repository README</div>
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <input id="q" placeholder="Search headings & text..." style="border:0;background:transparent;outline:none;color:var(--fg);width:260px">
+          <button class="btn" id="clear">Clear</button>
+        </div>
+        <button class="btn" id="toggle-theme">Dark</button>
+        <a class="btn" id="download-md" download="README.md">Download MD</a>
+      </div>
+    </header>
+
+    <main>
+      <article>
+        <div id="content">Loading README...</div>
+      </article>
+
+      <aside id="toc">
+        <h3>Table of contents</h3>
+        <nav id="toc-list"></nav>
+      </aside>
+    </main>
+
+    <footer style="margin-top:20px;color:var(--muted);font-size:.9rem">Generated interactive README • Open-source</footer>
+  </div>
+
+  <script>
+  // Minimal marked-like lightweight markdown parser for the README content (handles headings, lists, codeblocks, links, basic inline)
+  function escapeHtml(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+  function mdToHtml(md){
+    // Convert code blocks
+    md = md.replace(/```([\s\S]*?)```/g,function(m,c){return '<pre><code>'+escapeHtml(c)+'</code></pre>'})
+    // Headings
+    md = md.replace(/^# (.*)$/gm,function(m,c){return '<h1>'+c+'</h1>'})
+    md = md.replace(/^## (.*)$/gm,function(m,c){return '<h2>'+c+'</h2>'})
+    md = md.replace(/^### (.*)$/gm,function(m,c){return '<h3>'+c+'</h3>'})
+    md = md.replace(/^#### (.*)$/gm,function(m,c){return '<h4>'+c+'</h4>'})
+    // Horizontal rules
+    md = md.replace(/^---$/gm,'<hr>')
+    // Bold/italics simple
+    md = md.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    md = md.replace(/\*(.*?)\*/g,'<em>$1</em>')
+    // Links
+    md = md.replace(/\[(.*?)\]\((.*?)\)/g,'<a href="$2" target="_blank">$1</a>')
+    // Inline math and latex removed (leave as text)
+    md = md.replace(/\$\$?[\s\S]*?\$\$?/g,function(m){return '<span class="math">'+escapeHtml(m)+'</span>'})
+    // Lists (ordered and unordered)
+    md = md.replace(/(^|\n)\s*\d+\. (.*)(?=\n|$)/g,'$1<li>$2</li>')
+    md = md.replace(/(^|\n)\s*- (.*)(?=\n|$)/g,'$1<li>$2</li>')
+    // Wrap consecutive <li> into <ul>
+    md = md.replace(/(<li>[\s\S]*?<\/li>)(\n?<li>[\s\S]*?<\/li>)+/g,function(m){return '<ul>'+m.replace(/\n/g,'')+'</ul>'})
+    // Paragraphs
+    md = md.split('\n\n').map(function(p){
+      if (/^<h|^<ul|^<pre|^<hr|^<p|^<blockquote/.test(p.trim())) return p
+      return '<p>'+p.replace(/\n/g,' ')+'</p>'
+    }).join('\n\n')
+    return md
+  }
+
+  // Load README.md via GitHub raw if possible, else use embedded fallback
+  const rawUrls = [
+    'https://raw.githubusercontent.com/papercodeIN/RPI-PICO/main/README.md'
+  ]
+
+  async function fetchReadme(){
+    for(const u of rawUrls){
+      try{
+        const r = await fetch(u)
+        if(!r.ok) throw new Error('no')
+        return await r.text()
+      }catch(e){/* continue to next */}
+    }
+    // Fallback: embed a copy of the README present at build-time
+    return `PLACEHOLDER_README`
+  }
+
+  function buildTOC(container){
+    const heads = container.querySelectorAll('h1,h2,h3,h4')
+    const toc = document.getElementById('toc-list')
+    toc.innerHTML = ''
+    heads.forEach(h=>{
+      const id = h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g,'-')
+      h.id = id
+      const a = document.createElement('a')
+      a.href = '#'+id
+      a.textContent = h.textContent
+      a.style.display = 'block'
+      a.style.marginLeft = (parseInt(h.tagName.substring(1))-1)*8+'px'
+      toc.appendChild(a)
+    })
+  }
+
+  function addCopyButtons(){
+    document.querySelectorAll('pre').forEach(pre=>{
+      if(pre._copied) return; pre._copied=true
+      const btn = document.createElement('button')
+      btn.className='btn copy-btn'
+      btn.textContent='Copy'
+      btn.onclick = async ()=>{
+        await navigator.clipboard.writeText(pre.innerText)
+        btn.textContent='Copied'
+        setTimeout(()=>btn.textContent='Copy',1500)
+      }
+      pre.style.position='relative'
+      pre.appendChild(btn)
+    })
+  }
+
+  (async ()=>{
+    let md = await fetchReadme()
+    // If fallback placeholder, replace with embedded README content
+    if(md.trim()==='PLACEHOLDER_README'){
+      md = `# Raspberry Pi Pico\n---\n<p align=\"center\">\n  <span style=\"font-size: 1.1em; color: #FFD700; font-weight: bold;\">✨ Enjoying this project? Support our work! ✨</span>\n</p>\n\n<p align=\"center\" style=\"margin: 15px 0;\">\n  <a href=\"https://buymeacoffee.com/pylin\" target=\"_blank\">\n    <img src=\"https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png\" alt=\"Buy Me a Coffee\" style=\"height: 40px; width: 150px;\">\n  </a>\n</p>\n\n---\n\n- Raspberry Pi Pico MicroPython Firmware Download: [Visit](https://micropython.org/download/rp2-pico/)\n- Raspberry Pi Pico W MicroPython Firmware Download: [Visit](https://micropython.org/download/RPI_PICO_W/)\n- Raspberry Pi Pico W CircuitPython Firmware Download: [Visit](https://circuitpython.org/board/raspberry_pi_pico_w/)\n\n---\n\n$\\color{Green}\\Huge{\\textbf{Basic}}$\n\n1. 🆓️How to Download and Install Thonny Micropython IDE in Windows System [[Watch]](https://youtu.be/27Tlwy83pqs)\n2. ⌛How to Connect Raspberry Pi Pico W to Wifi using Micropython & Thonny IDE\n3. ⌛How to install micropython modbus library in Raspberry Pi Pico W using Thonny \n4. 🆓️How to Create Wifi Access Point in Raspberry Pi Pico W [[Watch]](https://youtu.be/TQM5PEL98TM)\n5. 🆓️How to Read Internal Temperature of Raspberry Pi Pico W using On Board Temperature Sensor [[Watch]](https://youtu.be/7eas25NaM-8) \n\n---\n\n$\\color{Green}\\Huge{\\textbf{Modbus TCP Client Implementation in Raspberry Pi Pico W}}$\n\n1. 🆓️How to Read Holding Register Value of Modbus TCP/IP Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/goskYrT9-v4) \n2. 🆓️How to Write Holding Register Values to Modbus TCP/IP Device from Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/kvvU7n1Poxg) \n3. 🆓️How to Read Coil Status of Remote Modbus TCP/IP Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/Y8Azq8q3Ax4) \n4. 🆓️How to Write or Update Coil Status of Modbus TCP/IP Device from Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/UyTNta9OfGE) \n5. 🆓️How to Read Input Register Value of Modbus TCP/IP Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/xAi8Ej02De8) \n6. 🆓️How to Read Discrete Input Status of Modbus TCP/IP Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/q0CZX4QeXek) \n7. 🆓️How to Control Raspberry Pi Pico W Digital Pins (Ex. Pi On Board LED) using Modbus TCP/IP Protocol [[Watch]](https://youtu.be/vA3utOAW49Y) \n\n---\n\n$\\color{Green}\\Huge{\\textbf{Modbus TCP Server Implementation in Raspberry Pi Pico W}}$\n\n1. ⌛How to Create Simple Modbus TCP/IP Server in Raspberry Pi Pico W using MicroPython \n    1. With (Input Status, Coil Status, Input Register, Holding Register)\n2. ⌛Raspberry Pi Pico W Communication with SHT20 Modbus Serial Humidity & Temperature Transmitter \n\n---\n\n$\\color{Green}\\Huge{\\textbf{MQTT Implementation in Raspberry Pi Pico W}}$\n\n1. 🆓️How to Publish Raspberry Pi Pico W Internal Temperature Data to HiveMQ MQTT Broker [[Watch]](https://youtu.be/4BVE5Q2dj94) \n2. 🆓️How to Monitor Raspberry Pi Pico W Internal Temperature via Mosquitto MQTT Broker over LAN [[Watch]](https://youtu.be/b3LtdknCkL4) \n3. 🆓️How to Publish DHT11 Sensor Data from Raspberry Pi Pico W to Mosquitto MQTT Broker over LAN [[Watch]](https://youtu.be/Gsw0CIsJJfE) \n\n---\n\n$\\color{Green}\\Huge{\\textbf{MQTT + Modbus TCP/IP Client}}$\n\n1. ⌛Read Holding Register of Modbus TCP/IP and Publish it to MQTT Broker using Raspberry Pi Pico W \n2. ⌛Read Holding Register of Multiple Modbus TCP Device from Single IP and Publish it to MQTT Broker using Raspberry Pi Pico W \n\n---\n\n$\\color{Green}\\Huge{\\textbf{Modbus Serial(RS485) Master Implementation in Raspberry Pi Pico W}}$\n\n1. 🆓️How to Read Holding Register Value of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/vkr0jXu8t8A) \n2. 🆓️How to Read Input Register Value of Modbus Slave Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/UVCsmzV5K-Y) \n3. ⌛How to Read Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython \n4. ⌛How to Read Input Coil Status of Modbus Slave Device in Raspberry Pi Pico W using MicroPython \n5. ⌛How to Write Holding Register Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython \n6. ⌛How to Change Coil Status Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython \n\n---\n\n$\\color{Green}\\Huge{\\textbf{Data Logging with Raspberry Pi Pico W - PostgreSQL}}$\n1. 🆓️How to Log Data to Cloud PostgreSQL Database with Raspberry Pi Pico W [[Watch]](https://youtu.be/MK_N49lRzlQ)\n\n---\n`}
+    }
+
+    const html = mdToHtml(md)
+    const content = document.getElementById('content')
+    content.innerHTML = html
+
+    buildTOC(content)
+    addCopyButtons()
+
+    // Wire up search
+    const q = document.getElementById('q')
+    document.getElementById('clear').onclick = ()=>{q.value='';applyFilter('')}
+    q.addEventListener('input',e=>applyFilter(e.target.value))
+    function applyFilter(term){
+      if(!term){
+        document.querySelectorAll('article *').forEach(n=>n.style.opacity=1)
+        return
+      }
+      const s = term.toLowerCase()
+      document.querySelectorAll('article *').forEach(n=>{
+        if(n.children.length>0) return
+        const txt = (n.textContent||'').toLowerCase()
+        n.style.opacity = txt.includes(s)?1:0.25
+      })
+    }
+
+    // Theme toggle
+    const themeBtn = document.getElementById('toggle-theme')
+    const root = document.documentElement
+    themeBtn.onclick = ()=>{
+      const cur = root.getAttribute('data-theme')
+      if(cur==='dark'){root.removeAttribute('data-theme');themeBtn.textContent='Dark'}else{root.setAttribute('data-theme','dark');themeBtn.textContent='Light'}
+    }
+
+    // Download raw markdown
+    const dl = document.getElementById('download-md')
+    dl.href = 'data:text/plain;charset=utf-8,'+encodeURIComponent(md)
+
+    // Improve code block styling and copy buttons
+    addCopyButtons()
+
+  })()
+  </script>
+</body>
+</html>
