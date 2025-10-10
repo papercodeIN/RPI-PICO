@@ -34,7 +34,7 @@ $\color{Green}\Huge{\textbf{Basic}}$
 4. 🆓️How to Create Wifi Access Point in Raspberry Pi Pico W [[Watch]](https://youtu.be/TQM5PEL98TM)
 5. 🆓️How to Read Internal Temperature of Raspberry Pi Pico W using On Board Temperature Sensor [[Watch]](https://youtu.be/7eas25NaM-8) 
 
----
+##
 
 $\color{Green}\Huge{\textbf{Modbus TCP Client Implementation in Raspberry Pi Pico W}}$
 
@@ -46,7 +46,7 @@ $\color{Green}\Huge{\textbf{Modbus TCP Client Implementation in Raspberry Pi Pic
 6. 🆓️How to Read Discrete Input Status of Modbus TCP/IP Device in Raspberry Pi Pico W using MicroPython [[Watch]](https://youtu.be/q0CZX4QeXek) 
 7. 🆓️How to Control Raspberry Pi Pico W Digital Pins (Ex. Pi On Board LED) using Modbus TCP/IP Protocol [[Watch]](https://youtu.be/vA3utOAW49Y) 
 
----
+##
 
 $\color{Green}\Huge{\textbf{Modbus TCP Server Implementation in Raspberry Pi Pico W}}$
 
@@ -54,7 +54,7 @@ $\color{Green}\Huge{\textbf{Modbus TCP Server Implementation in Raspberry Pi Pic
     1. With (Input Status, Coil Status, Input Register, Holding Register)
 2. ⌛Raspberry Pi Pico W Communication with SHT20 Modbus Serial Humidity & Temperature Transmitter 
 
----
+##
 
 $\color{Green}\Huge{\textbf{MQTT Implementation in Raspberry Pi Pico W}}$
 
@@ -62,14 +62,14 @@ $\color{Green}\Huge{\textbf{MQTT Implementation in Raspberry Pi Pico W}}$
 2. 🆓️How to Monitor Raspberry Pi Pico W Internal Temperature via Mosquitto MQTT Broker over LAN [[Watch]](https://youtu.be/b3LtdknCkL4) 
 3. 🆓️How to Publish DHT11 Sensor Data from Raspberry Pi Pico W to Mosquitto MQTT Broker over LAN [[Watch]](https://youtu.be/Gsw0CIsJJfE) 
 
----
+##
 
 $\color{Green}\Huge{\textbf{MQTT + Modbus TCP/IP Client}}$
 
 1. ⌛Read Holding Register of Modbus TCP/IP and Publish it to MQTT Broker using Raspberry Pi Pico W 
 2. ⌛Read Holding Register of Multiple Modbus TCP Device from Single IP and Publish it to MQTT Broker using Raspberry Pi Pico W 
 
----
+##
 
 $\color{Green}\Huge{\textbf{Modbus Serial(RS485) Master Implementation in Raspberry Pi Pico W}}$
 
@@ -80,7 +80,7 @@ $\color{Green}\Huge{\textbf{Modbus Serial(RS485) Master Implementation in Raspbe
 5. ⌛How to Write Holding Register Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython 
 6. ⌛How to Change Coil Status Value to Modbus Slave Device from Raspberry Pi Pico W using MicroPython 
 
----
+##
  
 $\color{Green}\Huge{\textbf{Data Logging with Raspberry Pi Pico W - PostgreSQL}}$
 1. 🆓️How to Log Data to Cloud PostgreSQL Database with Raspberry Pi Pico W [[Watch]](https://youtu.be/MK_N49lRzlQ)
