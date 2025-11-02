@@ -113,3 +113,93 @@ $\color{Green}\Huge{\textbf{Data Logging with Raspberry Pi Pico W - PostgreSQL}}
 </table>
 
 ---
+
+Here’s your improved Markdown content reformatted into clean, structured tables for better readability and organization:
+
+---
+
+## 📥 Firmware Downloads
+
+| 🔧 Firmware Type | 🔗 Download Link |
+|------------------|------------------|
+| Raspberry Pi Pico MicroPython | [Visit](https://micropython.org/download/rp2-pico/) |
+| Raspberry Pi Pico W MicroPython | [Visit](https://micropython.org/download/RPI_PICO_W/) |
+| Raspberry Pi Pico W CircuitPython | [Visit](https://circuitpython.org/board/raspberry_pi_pico_w/) |
+
+---
+
+## 🟢 Basic Tutorials
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| How to Download and Install Thonny MicroPython IDE on Windows | [Watch](https://youtu.be/27Tlwy83pqs) |
+| Connect Raspberry Pi Pico W to WiFi using MicroPython & Thonny IDE | ⌛ |
+| Install MicroPython Modbus Library in Raspberry Pi Pico W | ⌛ |
+| Create WiFi Access Point in Raspberry Pi Pico W | [Watch](https://youtu.be/TQM5PEL98TM) |
+| Read Internal Temperature using Onboard Sensor | [Watch](https://youtu.be/7eas25NaM-8) |
+
+---
+
+## 🔄 Modbus TCP Client Implementation
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Read Holding Register from Modbus TCP/IP Device | [Watch](https://youtu.be/goskYrT9-v4) |
+| Write Holding Register to Modbus TCP/IP Device | [Watch](https://youtu.be/kvvU7n1Poxg) |
+| Read Coil Status from Modbus TCP/IP Device | [Watch](https://youtu.be/Y8Azq8q3Ax4) |
+| Write/Update Coil Status to Modbus TCP/IP Device | [Watch](https://youtu.be/UyTNta9OfGE) |
+| Read Input Register from Modbus TCP/IP Device | [Watch](https://youtu.be/xAi8Ej02De8) |
+| Read Discrete Input Status from Modbus TCP/IP Device | [Watch](https://youtu.be/q0CZX4QeXek) |
+| Control Raspberry Pi Pico W Digital Pins via Modbus TCP/IP | [Watch](https://youtu.be/vA3utOAW49Y) |
+
+---
+
+## 🖧 Modbus TCP Server Implementation
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Create Modbus TCP/IP Server (Input Status, Coil, Input Register, Holding Register) | ⌛ |
+| Communicate with SHT20 Modbus Serial Humidity & Temperature Transmitter | ⌛ |
+
+---
+
+## 📡 MQTT Implementation
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Publish Internal Temperature to HiveMQ MQTT Broker | [Watch](https://youtu.be/4BVE5Q2dj94) |
+| Monitor Internal Temperature via Mosquitto MQTT Broker over LAN | [Watch](https://youtu.be/b3LtdknCkL4) |
+| Publish DHT11 Sensor Data to Mosquitto MQTT Broker over LAN | [Watch](https://youtu.be/Gsw0CIsJJfE) |
+
+---
+
+## 🔗 MQTT + Modbus TCP/IP Client
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Read Holding Register and Publish to MQTT Broker | ⌛ |
+| Read Multiple Modbus TCP Devices and Publish to MQTT Broker | ⌛ |
+
+---
+
+## 🔌 Modbus Serial (RS485) Master Implementation
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Read Holding Register from Modbus Slave Device | [Watch](https://youtu.be/vkr0jXu8t8A) |
+| Read Input Register from Modbus Slave Device | [Watch](https://youtu.be/UVCsmzV5K-Y) |
+| Read Coil Status from Modbus Slave Device | ⌛ |
+| Read Input Coil Status from Modbus Slave Device | ⌛ |
+| Write Holding Register to Modbus Slave Device | ⌛ |
+| Change Coil Status Value on Modbus Slave Device | ⌛ |
+
+---
+
+## 🗃️ Data Logging with PostgreSQL
+
+| 🎥 Title | 🔗 Watch |
+|---------|----------|
+| Log Data to Cloud PostgreSQL Database with Raspberry Pi Pico W | [Watch](https://youtu.be/MK_N49lRzlQ) |
+
+---
+
