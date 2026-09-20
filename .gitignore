@@ -1,1 +1,16 @@
-/Gateway
+# Secrets - never commit credentials
+secrets.py
+**/secrets.py
+*.secrets.py
+
+# MicroPython / Thonny cache
+__pycache__/
+*.pyc
+.mypy_cache/
+
+# Gateway is now tracked - ignore only large binaries
+Gateway/**/Software/*.exe
+Gateway/**/Fimrware/*.uf2
+Gateway/**/Firmware/*.uf2
+*.uf2
+!Pi-Pico-W-Firmware/*.uf2
