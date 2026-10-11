@@ -60,7 +60,7 @@ while True:
     try:
         result = client.process()
     except KeyboardInterrupt:
-        print('KeyboardInterrupt, stopping TCP client...')
+        print('KeyboardInterrupt, stopping TCP server...')
         break
     except Exception as e:
         print('Exception during execution: {}'.format(e))
