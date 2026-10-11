@@ -1,0 +1,18 @@
+{
+    "coils": {
+        "address": 0,
+        "quantity": 5
+    },
+    "discrete_inputs": {
+        "address": 0,
+        "quantity": 1
+    },
+    "holding_registers": {
+        "address": 0,
+        "quantity": 5
+    },
+    "input_registers": {
+        "address": 0,
+        "quantity": 10
+    }
+}

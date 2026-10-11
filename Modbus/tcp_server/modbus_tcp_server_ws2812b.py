@@ -3,29 +3,16 @@ import time
 from machine import Pin
 import network
 from neopixel import NeoPixel
+from secrets import WIFI_SSID, WIFI_PASSWORD, MODBUS_SERVER_PORT
 
-# Connect to a network
 station = network.WLAN(network.STA_IF)
-if station.active() and station.isconnected():
-    station.disconnect()
-    time.sleep(1)
-station.active(False)
-time.sleep(1)
 station.active(True)
+station.connect(WIFI_SSID, WIFI_PASSWORD)
+while not station.isconnected():
+    time.sleep(1)
+print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
 
-# Connect to WiFi
-station.connect('Capgemini_4G', 'MN704116')
-time.sleep(1)
-
-while True:
-    print('Waiting for WiFi connection...')
-    if station.isconnected():
-        print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
-        break
-    time.sleep(2)
-
-# Modbus TCP parameters
-tcp_port = 502
+tcp_port = MODBUS_SERVER_PORT
 local_ip = station.ifconfig()[0]
 
 # Setup WS2812B LEDs
@@ -66,7 +53,7 @@ register_definitions = {
 print('Setting up registers ...')
 client.setup_registers(registers=register_definitions)
 print('Register setup done')
-print('Serving as TCP client on {}:{}'.format(local_ip, tcp_port))
+print('Serving as Modbus TCP server on {}:{}'.format(local_ip, tcp_port))
 
 # Main loop to process Modbus requests
 while True:
@@ -75,7 +62,7 @@ while True:
     except KeyboardInterrupt:
         print('KeyboardInterrupt, stopping TCP client...')
         break
-#    except Exception as e:
-#        print('Exception during execution: {}'.format(e))
+    except Exception as e:
+        print('Exception during execution: {}'.format(e))
 
-print("Finished providing/accepting data as client")
+print("Finished providing/accepting data as server")

@@ -1,0 +1,18 @@
+{
+    "read_coils": {
+        "address": 0,
+        "quantity": 5
+    },
+    "read_discrete_inputs": {
+        "address": 0,
+        "quantity": 1
+    },
+    "read_holding_registers": {
+        "address": 0,
+        "quantity": 5
+    },
+    "read_input_registers": {
+        "address": 0,
+        "quantity": 10
+    }
+}

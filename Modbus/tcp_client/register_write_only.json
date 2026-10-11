@@ -1,0 +1,16 @@
+{
+    "write_coil": [
+        {"address": 0, "value": true},
+        {"address": 5, "value": false}
+    ],
+    "write_coils": [
+        {"address": 10, "values": [true, false, true, true]}
+    ],
+    "write_register": [
+        {"address": 0, "value": 100},
+        {"address": 1, "value": 255}
+    ],
+    "write_registers": [
+        {"address": 10, "values": [100, 200, 300, 400, 500]}
+    ]
+}

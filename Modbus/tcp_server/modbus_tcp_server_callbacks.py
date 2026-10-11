@@ -1,34 +1,16 @@
-# import modbus host classes
 from umodbus.tcp import ModbusTCP
 import time
 import network
-# ===============================================
-# connect to a network
+from secrets import WIFI_SSID, WIFI_PASSWORD, MODBUS_SERVER_PORT
+
 station = network.WLAN(network.STA_IF)
-if station.active() and station.isconnected():
-    station.disconnect()
-    time.sleep(1)
-station.active(False)
-time.sleep(1)
 station.active(True)
+station.connect(WIFI_SSID, WIFI_PASSWORD)
+while not station.isconnected():
+    time.sleep(1)
+print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
 
-# station.connect('SSID', 'PASSWORD')
-station.connect('Fusion Automate', 'Fusion_Automate')
-time.sleep(1)
-
-while True:
-    print('Waiting for WiFi connection...')
-    if station.isconnected():
-        print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
-        break
-    time.sleep(2)
-# ===============================================
-
-# TCP Slave setup
-tcp_port = 502              # port to listen to
-# set IP address of the MicroPython device explicitly
-# local_ip = '192.168.4.1'    # IP address
-# or get it from the system after a connection to the network has been made
+tcp_port = MODBUS_SERVER_PORT
 local_ip = station.ifconfig()[0]
 
 # ModbusTCP can get TCP requests from a host device to provide/set data
@@ -160,15 +142,15 @@ client.setup_registers(registers=register_definitions)
 # client.setup_registers(registers=register_definitions, use_default_vals=True)
 print('Register setup done')
 
-print('Serving as TCP client on {}:{}'.format(local_ip, tcp_port))
+print('Serving as Modbus TCP server on {}:{}'.format(local_ip, tcp_port))
 
 while True:
     try:
         result = client.process()
     except KeyboardInterrupt:
-        print('KeyboardInterrupt, stopping TCP client...')
+        print('KeyboardInterrupt, stopping TCP server...')
         break
     except Exception as e:
         print('Exception during execution: {}'.format(e))
 
-print("Finished providing/accepting data as client")
+print("Finished providing/accepting data as server")

@@ -2,30 +2,17 @@ from umodbus.tcp import ModbusTCP
 import time
 from machine import Pin
 import network
+from secrets import WIFI_SSID, WIFI_PASSWORD, MODBUS_SERVER_PORT
 
-myLED = Pin('LED',Pin.OUT)
-# ===============================================
-# connect to a network
+myLED = Pin('LED', Pin.OUT)
+
 station = network.WLAN(network.STA_IF)
-if station.active() and station.isconnected():
-    station.disconnect()
-    time.sleep(1)
-station.active(False)
-time.sleep(1)
 station.active(True)
-
-# station.connect('SSID', 'PASSWORD')
-station.connect('Fusion Automate', 'Fusion_Automate')
-time.sleep(1)
-
-while True:
-    print('Waiting for WiFi connection...')
-    if station.isconnected():
-        print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
-        break
-    time.sleep(2)
-# ===============================================
-tcp_port = 502
+station.connect(WIFI_SSID, WIFI_PASSWORD)
+while not station.isconnected():
+    time.sleep(1)
+print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
+tcp_port = MODBUS_SERVER_PORT
 local_ip = station.ifconfig()[0]
 
 # ModbusTCP can get TCP requests from a host device to provide/set data
@@ -52,15 +39,15 @@ register_definitions['COILS']['LED']['on_get_cb'] = LED_cb
 print('Setting up registers ...')
 client.setup_registers(registers=register_definitions)
 print('Register setup done')
-print('Serving as TCP client on {}:{}'.format(local_ip, tcp_port))
+print('Serving as Modbus TCP server on {}:{}'.format(local_ip, tcp_port))
 
 while True:
     try:
         result = client.process()
     except KeyboardInterrupt:
-        print('KeyboardInterrupt, stopping TCP client...')
+        print('KeyboardInterrupt, stopping TCP server...')
         break
     except Exception as e:
         print('Exception during execution: {}'.format(e))
 
-print("Finished providing/accepting data as client")
+print("Finished providing/accepting data as server")
