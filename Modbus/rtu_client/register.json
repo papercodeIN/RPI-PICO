@@ -1,0 +1,27 @@
+{
+    "read_coils": [
+        {"slave_addr": 1, "address": 0, "quantity": 5}
+    ],
+    "read_discrete_inputs": [
+        {"slave_addr": 1, "address": 0, "quantity": 1}
+    ],
+    "read_holding_registers": [
+        {"slave_addr": 1, "address": 0, "quantity": 5},
+        {"slave_addr": 2, "address": 0, "quantity": 3}
+    ],
+    "read_input_registers": [
+        {"slave_addr": 1, "address": 0, "quantity": 10}
+    ],
+    "write_coil": [
+        {"slave_addr": 1, "address": 0, "value": true}
+    ],
+    "write_coils": [
+        {"slave_addr": 1, "address": 0, "values": [true, false, true]}
+    ],
+    "write_register": [
+        {"slave_addr": 1, "address": 0, "value": 100}
+    ],
+    "write_registers": [
+        {"slave_addr": 1, "address": 0, "values": [100, 200, 300]}
+    ]
+}

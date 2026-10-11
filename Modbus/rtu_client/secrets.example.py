@@ -1,0 +1,5 @@
+UART_ID = 0
+BAUDRATE = 9600
+TX_PIN = 0
+RX_PIN = 1
+CTRL_PIN = None
