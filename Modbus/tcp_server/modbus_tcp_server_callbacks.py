@@ -3,6 +3,7 @@ import time
 import network
 from secrets import WIFI_SSID, WIFI_PASSWORD, MODBUS_SERVER_PORT
 
+# Connect to WiFi
 station = network.WLAN(network.STA_IF)
 station.active(True)
 station.connect(WIFI_SSID, WIFI_PASSWORD)
@@ -10,74 +11,79 @@ while not station.isconnected():
     time.sleep(1)
 print(f'Connected to WiFi, Pico W IP : {station.ifconfig()[0]}')
 
+# Use port from secrets configuration
 tcp_port = MODBUS_SERVER_PORT
 local_ip = station.ifconfig()[0]
 
-# ModbusTCP can get TCP requests from a host device to provide/set data
-client = ModbusTCP()
+# Initialize Modbus TCP server instance
+server = ModbusTCP()
 is_bound = False
 
-# check whether client has been bound to an IP and port
-is_bound = client.get_bound_status()
+# Bind server to local IP and port if not already bound
+is_bound = server.get_bound_status()
 
 if not is_bound:
-    client.bind(local_ip=local_ip, local_port=tcp_port)
+    server.bind(local_ip=local_ip, local_port=tcp_port)
 
 
+# Callback triggered when a client writes to EXAMPLE_COIL
 def my_coil_set_cb(reg_type, address, val):
     print('Custom callback, called on setting {} at {} to: {}'.
           format(reg_type, address, val))
 
 
+# Callback triggered when a client reads EXAMPLE_COIL
 def my_coil_get_cb(reg_type, address, val):
     print('Custom callback, called on getting {} at {}, currently: {}'.
           format(reg_type, address, val))
 
 
+# Callback triggered when a client writes to EXAMPLE_HREG
 def my_holding_register_set_cb(reg_type, address, val):
     print('Custom callback, called on setting {} at {} to: {}'.
           format(reg_type, address, val))
 
 
+# Callback triggered when a client reads EXAMPLE_HREG
 def my_holding_register_get_cb(reg_type, address, val):
     print('Custom callback, called on getting {} at {}, currently: {}'.
           format(reg_type, address, val))
 
 
+# Callback triggered when a client reads EXAMPLE_ISTS (discrete inputs are read-only)
 def my_discrete_inputs_register_get_cb(reg_type, address, val):
     print('Custom callback, called on getting {} at {}, currently: {}'.
           format(reg_type, address, val))
 
 
+# Callback triggered when a client reads EXAMPLE_IREG
+# Auto-increments the input register value by 1 before returning it
 def my_inputs_register_get_cb(reg_type, address, val):
-    # usage of global isn't great, but okay for an example
-    global client
+    global server
 
     print('Custom callback, called on getting {} at {}, currently: {}'.
           format(reg_type, address, val))
 
-    # any operation should be as short as possible to avoid response timeouts
+    # Keep operations short to avoid response timeouts
     new_val = val[0] + 1
 
-    # It would be also possible to read the latest ADC value at this time
-    # adc = machine.ADC(12)     # check MicroPython port specific syntax
-    # new_val = adc.read()
-
-    client.set_ireg(address=address, value=new_val)
+    server.set_ireg(address=address, value=new_val)
     print('Incremented current value by +1 before sending response')
 
 
+# Callback triggered when RESET_REGISTER_DATA_COIL is written to
+# Restores all registers to their default values defined below
 def reset_data_registers_cb(reg_type, address, val):
-    # usage of global isn't great, but okay for an example
-    global client
+    global server
     global register_definitions
 
     print('Resetting register data to default values ...')
-    client.setup_registers(registers=register_definitions)
+    server.setup_registers(registers=register_definitions)
     print('Default values restored')
 
 
-# commond slave register setup, to be used with the Master example above
+# Define all exposed registers with their types, addresses, lengths, and default values
+# COILS = boolean read/write, HREGS = 16-bit read/write, ISTS = boolean read-only, IREGS = 16-bit read-only
 register_definitions = {
     "COILS": {
         "RESET_REGISTER_DATA_COIL": {
@@ -114,9 +120,7 @@ register_definitions = {
     }
 }
 
-# add callbacks for different Modbus functions
-# each register can have a different callback
-# coils and holding register support callbacks for set and get
+# Attach set/get callbacks to coils and holding registers (they support both read and write)
 register_definitions['COILS']['EXAMPLE_COIL']['on_set_cb'] = my_coil_set_cb
 register_definitions['COILS']['EXAMPLE_COIL']['on_get_cb'] = my_coil_get_cb
 register_definitions['HREGS']['EXAMPLE_HREG']['on_set_cb'] = \
@@ -124,29 +128,26 @@ register_definitions['HREGS']['EXAMPLE_HREG']['on_set_cb'] = \
 register_definitions['HREGS']['EXAMPLE_HREG']['on_get_cb'] = \
     my_holding_register_get_cb
 
-# discrete inputs and input registers support only get callbacks as they can't
-# be set externally
+# Attach get-only callbacks to discrete inputs and input registers (they are read-only)
 register_definitions['ISTS']['EXAMPLE_ISTS']['on_get_cb'] = \
     my_discrete_inputs_register_get_cb
 register_definitions['IREGS']['EXAMPLE_IREG']['on_get_cb'] = \
     my_inputs_register_get_cb
 
-# reset all registers back to their default value with a callback
+# Writing coil 42 resets all registers to defaults
 register_definitions['COILS']['RESET_REGISTER_DATA_COIL']['on_set_cb'] = \
     reset_data_registers_cb
 
 print('Setting up registers ...')
-# use the defined values of each register type provided by register_definitions
-client.setup_registers(registers=register_definitions)
-# alternatively use dummy default values (True for bool regs, 999 otherwise)
-# client.setup_registers(registers=register_definitions, use_default_vals=True)
+# Register all defined registers with the Modbus TCP server
+server.setup_registers(registers=register_definitions)
 print('Register setup done')
-
 print('Serving as Modbus TCP server on {}:{}'.format(local_ip, tcp_port))
 
+# Main loop: process incoming Modbus TCP requests
 while True:
     try:
-        result = client.process()
+        result = server.process()
     except KeyboardInterrupt:
         print('KeyboardInterrupt, stopping TCP server...')
         break
