@@ -2,6 +2,8 @@
 secrets.py
 **/secrets.py
 *.secrets.py
+config.py
+**/config.py
 
 # MicroPython / Thonny cache
 __pycache__/
